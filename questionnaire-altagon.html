@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire Altagon · Valider mon projet</title>
+<meta name="description" content="Aide-moi à valider mon projet d'accompagnement d'athlètes — 5 min, anonyme.">
+<meta property="og:title" content="Questionnaire Altagon">
+<meta property="og:description" content="Aide-moi à valider mon projet d'accompagnement d'athlètes — 5 min, anonyme.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+:root {
+  --bg: #faf9f6;
+  --surface: #ffffff;
+  --surface-2: #f3f1ec;
+  --border: rgba(0,0,0,0.12);
+  --border-strong: rgba(0,0,0,0.25);
+  --text: #1a1a1a;
+  --text-2: #555;
+  --text-3: #888;
+  --accent: #1d4ed8;
+  --accent-bg: #eff6ff;
+  --accent-border: #93c5fd;
+  --gold: #b8860b;
+  --success: #15803d;
+  --danger: #b91c1c;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14130f;
+    --surface: #1f1e1a;
+    --surface-2: #28261f;
+    --border: rgba(255,255,255,0.12);
+    --border-strong: rgba(255,255,255,0.25);
+    --text: #ebe9e2;
+    --text-2: #b5b2a8;
+    --text-3: #888579;
+    --accent: #60a5fa;
+    --accent-bg: rgba(96,165,250,0.15);
+    --accent-border: rgba(96,165,250,0.4);
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+#app{max-width:700px;margin:0 auto;padding:1.5rem 1rem}
+@media (max-width:480px){#app{padding:1rem 0.75rem}}
+
+.q-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
+.q-question{font-size:15px;font-weight:500;margin:0 0 0.75rem;color:var(--text);line-height:1.5}
+.q-hint{font-size:12px;color:var(--text-3);margin:0.5rem 0 0;font-style:italic}
+
+.q-pills{display:flex;flex-wrap:wrap;gap:8px}
+.q-pill{padding:8px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:transparent;cursor:pointer;font-size:13px;font-family:inherit;color:var(--text);transition:all 0.15s}
+.q-pill:hover{border-color:var(--border-strong);background:var(--surface-2)}
+.q-pill[aria-pressed="true"]{background:var(--accent-bg);border-color:var(--accent-border);color:var(--accent);font-weight:500}
+
+.q-input,.q-textarea,.q-select{width:100%;padding:10px 12px;border:0.5px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;background:var(--surface);color:var(--text);box-sizing:border-box}
+.q-textarea{min-height:80px;resize:vertical;line-height:1.5}
+.q-input:focus,.q-textarea:focus,.q-select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
+
+.q-range-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.q-range-row input[type="range"]{flex:1;min-width:140px}
+.q-range-val{font-size:14px;font-weight:500;min-width:40px;text-align:right;color:var(--accent)}
+
+.q-progress{position:sticky;top:0;background:var(--bg);padding:0.75rem 0;z-index:10;border-bottom:0.5px solid var(--border);margin-bottom:1rem}
+.q-progress-bar{height:4px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.q-progress-fill{height:100%;background:var(--accent);transition:width 0.3s}
+.q-progress-text{font-size:12px;color:var(--text-2);margin-top:6px}
+
+.q-btn{padding:10px 18px;border:0.5px solid var(--border-strong);border-radius:var(--radius);background:transparent;cursor:pointer;font-size:14px;font-family:inherit;color:var(--text);transition:all 0.15s}
+.q-btn:hover{background:var(--surface-2)}
+.q-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.q-btn-primary:hover{opacity:0.9;background:var(--accent)}
+.q-btn-primary:disabled{opacity:0.4;cursor:not-allowed}
+
+.q-formule-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:0.75rem}
+.q-formule-card.recommended{border:2px solid var(--gold);position:relative}
+.q-formule-card.recommended::before{content:"Cordée recommandée";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:#fff;font-size:10px;padding:3px 10px;border-radius:var(--radius);letter-spacing:0.5px;text-transform:uppercase;font-weight:500}
+.q-formule-name{font-size:17px;font-weight:500;margin:0;font-family:Georgia,serif}
+.q-formule-duree{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px}
+.q-formule-sub{font-size:13px;color:var(--text-2);font-style:italic;margin:0.25rem 0 0.5rem}
+.q-formule-reduc{font-size:11px;color:var(--accent);margin:0 0 0.5rem;font-weight:500}
+
+.q-tarifs{display:flex;gap:8px;margin:0.75rem 0}
+.q-tarif-box{flex:1;background:var(--surface-2);border-radius:var(--radius);padding:10px;text-align:center}
+.q-tarif-box.pro{background:var(--accent-bg);border:0.5px solid var(--accent-border)}
+.q-tarif-label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px}
+.q-tarif-box.pro .q-tarif-label{color:var(--accent)}
+.q-tarif-val{font-size:20px;font-weight:500;color:var(--text);font-family:Georgia,serif}
+.q-tarif-box.pro .q-tarif-val{color:var(--accent)}
+.q-tarif-unit{font-size:11px;color:var(--text-2)}
+
+.q-features{list-style:none;padding:0;margin:0.5rem 0 0;font-size:12px;color:var(--text-2)}
+.q-features li{padding:3px 0;display:flex;align-items:flex-start;gap:6px}
+.q-features li i{font-size:14px;color:var(--accent);margin-top:1px;flex-shrink:0}
+
+.q-pro-extras{background:var(--accent-bg);border-radius:var(--radius);padding:12px;margin-top:10px;font-size:12px;color:var(--accent);line-height:1.7}
+.q-pro-extras strong{display:block;margin-bottom:6px;font-size:13px}
+
+.q-header{text-align:center;margin-bottom:1.5rem}
+.q-header h1{font-size:24px;font-weight:500;margin:0 0 0.5rem;font-family:Georgia,serif}
+.q-header p{font-size:14px;color:var(--text-2);margin:0;line-height:1.6}
+
+.q-share-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem;justify-content:center}
+.q-share-btn{display:flex;align-items:center;gap:6px;padding:9px 14px;border:0.5px solid var(--border);border-radius:var(--radius);background:transparent;cursor:pointer;font-size:13px;font-family:inherit;color:var(--text);text-decoration:none;transition:all 0.15s}
+.q-share-btn:hover{background:var(--surface-2);border-color:var(--border-strong)}
+.q-share-btn i{font-size:16px}
+
+.q-metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem}
+.q-metric{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1rem}
+.q-metric-label{font-size:12px;color:var(--text-2);margin-bottom:4px}
+.q-metric-val{font-size:24px;font-weight:500;color:var(--text);font-family:Georgia,serif}
+
+.q-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:13px}
+.q-bar-label{min-width:140px;color:var(--text-2);font-size:12px}
+.q-bar-track{flex:1;height:22px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.q-bar-fill{height:100%;background:var(--accent);transition:width 0.5s}
+.q-bar-val{min-width:65px;text-align:right;font-size:12px;font-weight:500;color:var(--accent)}
+
+.q-tabs{display:flex;gap:4px;border-bottom:0.5px solid var(--border);margin-bottom:1rem;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.q-tab{padding:8px 14px;border:none;background:transparent;cursor:pointer;font-size:13px;font-family:inherit;color:var(--text-2);border-bottom:2px solid transparent;white-space:nowrap}
+.q-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.q-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:var(--radius);font-size:13px;z-index:100;opacity:0;transition:opacity 0.3s;pointer-events:none}
+.q-toast.show{opacity:1}
+
+.q-intro-box{background:var(--accent-bg);border:0.5px solid var(--accent-border);border-radius:var(--radius);padding:12px 14px;margin-bottom:1rem;font-size:13px;color:var(--accent);line-height:1.6}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// =========================================================================
+// 🔧 ZONE 1 — CONFIGURATION GÉNÉRALE (modifie librement)
+// =========================================================================
+const CONFIG = {
+  motDePasseAdmin: "altagon2026", // Change-le. Accès tableau de bord: ?admin=altagon2026
+  nomMarque: "Altagon",
+  lienPartage: window.location.href,
+  texteIncitationPartage: "Aide-moi à valider mon projet d'accompagnement d'athlètes — 5 min max 🙏",
+
+  // ⚙️ Formules tarifaires (modifie tarifs et avantages)
+  formules: [
+    {
+      id: "reconnaissance",
+      nom: "Reconnaissance",
+      duree: "1 mois",
+      sousTitre: "Pour tester la cordée",
+      tarifAmateur: 299,
+      tarifPro: 329,
+      avantages: [
+        "Briefing offert (2h)",
+        "Cartographie initiale complète",
+        "1 briefing visio / semaine",
+        "Protocoles hebdomadaires individualisés",
+        "Suivi des 7 piliers",
+        "Analyse vidéo limitée"
+      ]
+    },
+    {
+      id: "cap",
+      nom: "Le Cap",
+      duree: "3 mois",
+      sousTitre: "Premier cycle complet",
+      tarifAmateur: 259,
+      tarifPro: 299,
+      reduction: "−13% / mois",
+      avantages: [
+        "Briefing offert (2h)",
+        "Cartographie initiale complète",
+        "1 briefing visio / semaine",
+        "Protocoles hebdomadaires individualisés",
+        "Suivi des 7 piliers",
+        "Analyse vidéo (4 par mois)",
+        "Bilan de cycle à la sortie"
+      ]
+    },
+    {
+      id: "ascension",
+      nom: "L'Ascension",
+      duree: "6 mois",
+      sousTitre: "La trajectoire qui transforme",
+      tarifAmateur: 229,
+      tarifPro: 259,
+      reduction: "−23% / mois · Récompense −10%",
+      recommande: true,
+      avantages: [
+        "Briefing offert (2h)",
+        "Cartographie initiale complète",
+        "1 briefing visio / semaine",
+        "Protocoles hebdomadaires individualisés",
+        "Suivi des 7 piliers",
+        "Analyse vidéo illimitée",
+        "Bilans de Cap (3)",
+        "Accès Cercle Altagon"
+      ]
+    },
+    {
+      id: "sommet",
+      nom: "Le Sommet",
+      duree: "12 mois",
+      sousTitre: "Une saison entière en cordée",
+      tarifAmateur: 199,
+      tarifPro: 229,
+      reduction: "−33% / mois · Récompense −15%",
+      avantages: [
+        "Tout L'Ascension, sur 12 mois",
+        "1 briefing visio / semaine",
+        "Analyse vidéo illimitée",
+        "Pic de forme calibré",
+        "Cercle Altagon premium",
+        "Audit de fin de saison complet",
+        "Pause programmée incluse"
+      ]
+    }
+  ],
+
+  // ⚙️ Avantages inclus dans le tarif Pro uniquement
+  avantagesProSupplementaires: [
+    "Analyse vidéo illimitée toutes formules",
+    "Accès prioritaire au coach (réponse < 4h)",
+    "Déplacement aux compétitions / matchs importants",
+    "Mise en relation avec le coach principal"
+  ]
+};
+
+// =========================================================================
+// 🔧 ZONE 2 — LIBELLÉS D'INTERFACE (modifie librement les textes affichés)
+// =========================================================================
+const LIBELLES = {
+  titreAccueil: "Aide-moi à valider mon projet",
+  sousTitreAccueil: "Je crée <strong>Altagon</strong>, un accompagnement 100% en ligne pour athlètes.<br>5-7 min, anonyme, hyper utile. Merci 🙏",
+  boutonSuivant: "Suivant →",
+  boutonRetour: "← Retour",
+  boutonEnvoyer: "Envoyer ✓",
+  texteSection: "Section",
+  texteMaxSelections: "Maximum",
+  texteSelectionsRestantes: "sélections",
+  texteChoisir: "-- Choisir --",
+  texteTarifAvecPro: "Le tarif PRO inclut en plus :",
+  texteAmateur: "Amateur",
+  texteProfessionnel: "Pro",
+  texteParMois: "/ mois",
+  texteMerci: "Merci infiniment !",
+  texteRemerciement: "Tes réponses ont été enregistrées et m'aideront à construire un service vraiment utile aux athlètes.",
+  texteAideDiffusion: "Aide-moi à toucher plus d'athlètes :",
+  texteCopierLien: "Copier le lien",
+  texteLienCopie: "Lien copié ✓",
+  texteChargement: "Chargement des réponses...",
+  texteAucuneReponse: "Aucune réponse pour le moment. Partage ton lien !",
+  texteAucunVerbatim: "Aucun témoignage pour le moment",
+  texteAucuneDonnee: "Pas de données",
+  texteReponse: "réponse",
+  texteReponses: "réponses",
+  texteSousTitreTableauBord: "Vue d'ensemble des résultats de validation",
+  ongletVue: "Vue d'ensemble",
+  ongletProfils: "Profils",
+  ongletTarifs: "Tarification",
+  ongletAvantages: "Fonctionnalités",
+  ongletVerbatims: "Témoignages",
+  ongletBrut: "Données brutes",
+  boutonExportCsv: "Exporter en CSV",
+  boutonExportJson: "Exporter en JSON",
+  boutonImporter: "Importer JSON",
+  boutonSupprimerTout: "Tout supprimer",
+  texteConfirmSuppression: "Supprimer TOUTES les réponses ? Cette action est irréversible.",
+  texteExportTelecharge: "Export téléchargé ✓",
+  texteToutesReponsesSupprimees: "Toutes les réponses supprimées",
+  texteErreur: "Erreur de sauvegarde. Réessaye.",
+  texteImportReussi: "Import réussi ✓",
+  metriqueReponses: "Réponses",
+  metriqueInteret: "Intérêt global /10",
+  metriqueRecommandation: "Recommandation /10",
+  metriqueApp: "Application utile /10",
+  metriquePrixTropCher: "Prix trop cher (moy.)",
+  metriquePrixJuste: "Prix juste (moy.)",
+  metriquePrixDoute: "Prix de doute (moy.)"
+};
+
+// =========================================================================
+// 🔧 ZONE 3 — QUESTIONS (ajoute, modifie, supprime des questions)
+// =========================================================================
+const QUESTIONS = [
+  {
+    section: "Profil",
+    items: [
+      {id:"age", q:"Ton âge ?", type:"select", options:["< 16 ans","16-20 ans","21-25 ans","26-30 ans","31-35 ans","36-45 ans","> 45 ans"]},
+      {id:"genre", q:"Genre ?", type:"pills", options:["Homme","Femme","Autre / je préfère ne pas dire"]},
+      {id:"discipline", q:"Ta discipline principale ?", type:"text", placeholder:"Ex : trail, judo, escalade, football..."},
+      {id:"niveau", q:"Ton niveau de pratique actuel ?", type:"pills", options:["Loisir","Compétiteur amateur régional","Compétiteur national","Compétiteur international","Professionnel"]},
+      {id:"frequence", q:"Heures d'entraînement par semaine ?", type:"pills", options:["< 4h","4-8h","8-12h","12-18h","> 18h"]},
+      {id:"anciennete", q:"Depuis combien d'années pratiques-tu ce sport ?", type:"pills", options:["< 2 ans","2-5 ans","5-10 ans","> 10 ans"]},
+      {id:"revenus_sport", q:"Tires-tu des revenus de ton sport ?", type:"pills", options:["Non, aucun","< 5 000 €/an (primes, partenariats)","5 000-20 000 €/an","20 000-50 000 €/an","> 50 000 €/an (revenu principal)"]}
+    ]
+  },
+  {
+    section: "Situation actuelle",
+    items: [
+      {id:"accompagnement_actuel", q:"Es-tu actuellement accompagné ?", type:"pills", options:["Non, je m'entraîne seul","Coach personnel en présentiel","Coach en ligne","Club / structure","Plateforme d'entraînement (Strava, TrainingPeaks...)"]},
+      {id:"budget_actuel", q:"Combien dépenses-tu mensuellement pour ta performance (coach, préparation physique, nutrition, soins) ?", type:"pills", options:["0 €","< 50 €","50-150 €","150-300 €","300-500 €","> 500 €"]},
+      {id:"budget_potentiel", q:"Combien serais-tu prêt à dépenser mensuellement pour t'aider à améliorer tes performances ?", type:"pills", options:["0 €","< 50 €","50-150 €","150-300 €","300-500 €","500-1000 €","> 1000 €"]},
+      {id:"satisfaction_actuelle", q:"Satisfaction de ton accompagnement actuel ?", type:"range", min:0, max:10, default:5, labels:["Très insatisfait","Très satisfait"]},
+      {id:"manques", q:"Qu'est-ce qui te manque le plus aujourd'hui dans ta préparation ?", type:"multi-pills", options:["Préparation physique structurée","Préparation mentale","Nutrition sportive","Stratégie de récupération","Analyse vidéo / technique","Suivi des données et progrès","Disponibilité du coach","Une vision globale (multi-piliers)","Communauté d'athlètes"]}
+    ]
+  },
+  {
+    section: "Le projet Altagon",
+    intro: "Le projet : un accompagnement 100% en ligne autour de 7 piliers de la performance (physique, technique, stratégico-tactique, bio-informationnel, nutrition, récupération, mental). Suivi personnalisé, application mobile + ordinateur, briefings visio hebdomadaires, communauté.",
+    items: [
+      {id:"interet_global", q:"Quel est ton intérêt global pour ce concept ?", type:"range", min:0, max:10, default:5, labels:["Aucun intérêt","Très fort intérêt"]},
+      {id:"frein_principal", q:"Quel serait ton principal frein pour t'engager ?", type:"pills", options:["Le prix","Je préfère le présentiel","Manque de temps","Pas convaincu de l'efficacité en ligne","Méfiance vis-à-vis d'un nouveau service","Mon niveau ne le justifie pas","Aucun, je suis prêt à m'engager"]},
+      {id:"piliers_priorite", q:"Quels piliers prioriserais-tu ? (3 maximum)", type:"multi-pills-limit", limit:3, options:["Physique","Technique","Stratégico-tactique","Bio-informationnel","Nutrition","Récupération","Mental"]},
+      {id:"app_importance", q:"L'importance d'une application mobile dédiée pour toi ?", type:"range", min:0, max:10, default:5, labels:["Inutile","Indispensable"]},
+      {id:"features_must", q:"Fonctionnalités INDISPENSABLES pour toi ?", type:"multi-pills", options:["Messagerie intégrée avec le coach","Séances détaillées avec vidéos","Suivi des charges d'entraînement","Courbes de progression","Système de récompenses / défis","Communauté d'athlètes","Bibliothèque de contenus (articles, podcasts)","Notifications intelligentes","Mode hors-ligne","Lien avec montre connectée (Garmin, Polar...)"]},
+      {id:"features_nice", q:"Fonctionnalités SYMPAS mais non essentielles ?", type:"multi-pills", options:["Analyse vidéo automatisée","Tests physiques semestriels","Préparation mentale individuelle hebdomadaire","Accès prioritaire au coach (< 4h)","Cercle / groupe d'échange privilégié","Pause programmée incluse","Audit de fin de saison","Aucune, je veux du basique"]},
+      {id:"briefing_2h", q:"Le briefing initial de 2h en visio te paraît...", type:"pills", options:["Indispensable, parfait","Bien mais trop long","Adapté en durée","Trop court","Inutile, je préfère un démarrage rapide"]}
+    ]
+  },
+  {
+    section: "Tarification",
+    intro: "4 formules proposées avec un tarif AMATEUR (compétiteur loisir/régional) et un tarif PRO (national+, revenus liés au sport). Le tarif PRO inclut des avantages supplémentaires : analyse vidéo illimitée, accès prioritaire coach (< 4h), déplacement sur compétitions importantes, et mise en relation avec le coach principal.",
+    items: [
+      {id:"statut_perso", q:"Selon les critères, tu te positionnes en :", type:"pills", options:["Amateur (loisir / compétition régionale)","Professionnel (national+, ou revenus sport > 20 k€/an)","Entre les deux"]},
+      {id:"_formules_display", q:"Voici les 4 formules. Évalue chacune ci-dessous.", type:"formules-display"},
+      {id:"formule_preferee", q:"Quelle formule t'attirerait le plus ?", type:"pills", options:["Reconnaissance (1 mois)","Le Cap (3 mois)","L'Ascension (6 mois)","Le Sommet (12 mois)","Aucune"]},
+      {id:"tarif_reconnaissance", q:"Tarif Reconnaissance (1 mois) — perception ?", type:"pills", options:["Beaucoup trop cher","Un peu cher","Juste prix","Bon rapport qualité-prix","Très bon marché"]},
+      {id:"tarif_cap", q:"Tarif Le Cap (3 mois) — perception ?", type:"pills", options:["Beaucoup trop cher","Un peu cher","Juste prix","Bon rapport qualité-prix","Très bon marché"]},
+      {id:"tarif_ascension", q:"Tarif L'Ascension (6 mois) — perception ?", type:"pills", options:["Beaucoup trop cher","Un peu cher","Juste prix","Bon rapport qualité-prix","Très bon marché"]},
+      {id:"tarif_sommet", q:"Tarif Le Sommet (12 mois) — perception ?", type:"pills", options:["Beaucoup trop cher","Un peu cher","Juste prix","Bon rapport qualité-prix","Très bon marché"]},
+      {id:"prix_psy_max", q:"AU-DESSUS de quel prix mensuel le service serait TROP cher pour toi (selon ton statut) ?", type:"number", placeholder:"Ex : 250", unit:"€/mois"},
+      {id:"prix_psy_juste", q:"Quel serait pour toi un prix mensuel JUSTE (selon ton statut) ?", type:"number", placeholder:"Ex : 150", unit:"€/mois"},
+      {id:"prix_psy_doute", q:"EN-DESSOUS de quel prix mensuel tu douterais de la qualité ?", type:"number", placeholder:"Ex : 80", unit:"€/mois"},
+      {id:"differenciation_pro", q:"Les avantages PRO supplémentaires justifient-ils l'écart de prix amateur/pro ?", type:"pills", options:["Oui, largement","Oui, correctement","C'est limite","Non, écart trop important","Je m'en fiche, je suis amateur"]},
+      {id:"engagement", q:"Tu préfères quel mode d'engagement ?", type:"pills", options:["Mensuel sans engagement","Engagement 3 mois","Engagement 6 mois","Engagement 12 mois","À la carte / séances ponctuelles"]},
+      {id:"paiement", q:"Mode de paiement préféré ?", type:"pills", options:["Mensuel","Trimestriel","Semestriel","Annuel (avec réduction)","Au cas par cas"]}
+    ]
+  },
+  {
+    section: "Concurrence et freins",
+    items: [
+      {id:"concurrents", q:"Quels services / coachs / plateformes connais-tu et utilises-tu déjà ?", type:"textarea", placeholder:"Cite librement (TrainingPeaks, Decathlon Coach, coachs sur les réseaux, etc.)"},
+      {id:"pourquoi_changer", q:"Qu'est-ce qui te ferait changer pour Altagon ?", type:"multi-pills", options:["Un meilleur prix","Une approche multi-piliers (pas juste l'entraînement)","Une vraie personnalisation","Du sérieux scientifique","Une application moderne","Un coach disponible et humain","Une communauté forte","Des résultats prouvés (témoignages)","Rien, je ne changerais pas"]},
+      {id:"essai_gratuit", q:"Une période d'essai gratuite te paraît...", type:"pills", options:["Indispensable","Bienvenue mais pas obligatoire","Pas nécessaire si le briefing 2h est offert","Inutile"]},
+      {id:"garantie", q:"Quelle garantie te rassurerait le plus ?", type:"pills", options:["Satisfait ou remboursé 30 jours","Engagement annulable à tout moment","Témoignages d'athlètes vérifiés","Présentation détaillée du coach (diplômes, palmarès)","Aucune, j'ai juste besoin d'essayer"]},
+      {id:"recommanderais", q:"Recommanderais-tu Altagon à un athlète proche ?", type:"range", min:0, max:10, default:5, labels:["Pas du tout","Absolument"]}
+    ]
+  },
+  {
+    section: "Espace libre",
+    items: [
+      {id:"feature_manquante", q:"Une fonctionnalité que tu aimerais voir et qu'on n'a pas évoquée ?", type:"textarea", placeholder:"Texte libre"},
+      {id:"verbatim", q:"Un conseil, une remarque, un doute ? (très utile pour moi)", type:"textarea", placeholder:"Texte libre"},
+      {id:"contact", q:"Si tu veux être informé du lancement, laisse un courriel (optionnel)", type:"text", placeholder:"courriel@exemple.com (totalement optionnel)"}
+    ]
+  }
+];
+
+// =========================================================================
+// ⚙️ TECHNIQUE — Ne modifie pas en dessous sauf si tu sais ce que tu fais
+// =========================================================================
+
+// 📧 CENTRALISATION DES RÉPONSES VIA GOOGLE SHEETS
+// 
+// INSTRUCTIONS (15 minutes) :
+// 
+// 1. Ouvre https://script.google.com dans un nouvel onglet
+// 2. Clique sur "Nouveau projet"
+// 3. Copie-colle TOUT le code du fichier "script-google-sheets.js" fourni
+// 4. Nomme le projet "Altagon Collecteur" (icône crayon en haut)
+// 5. Clique sur "Déployer" → "Nouveau déploiement"
+// 6. Type : "Application Web"
+// 7. Exécuter en tant que : "Moi"
+// 8. Qui a accès : "Tout le monde"
+// 9. Clique "Déployer"
+// 10. COPIE l'URL qui s'affiche (format: https://script.google.com/macros/s/ABCD.../exec)
+// 11. COLLE cette URL ci-dessous en remplacement de null (entre guillemets)
+// 12. SAUVEGARDE ce fichier
+// 
+// ⚠️ IMPORTANT : L'URL doit se terminer par /exec (pas /dev)
+// 
+const ENDPOINT_CENTRALISATION = "https://script.google.com/macros/s/AKfycbwYRQMu_li1_akizQsNJpkl88Kpigp_ZabdALrENB8wcuhtEgu0yK4xF8l6uXF3luEBUQ/exec";
+
+const STORAGE_KEY = "altagon_reponses_v1";
+const urlParams = new URLSearchParams(window.location.search);
+const estAdmin = urlParams.get("admin") === CONFIG.motDePasseAdmin;
+
+const etat = {
+  reponses: {},
+  sectionActuelle: 0,
+  nbSections: QUESTIONS.length
+};
+
+// --- Stockage local ---
+function chargerReponses() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+  catch(e) { return []; }
+}
+
+function sauvegarderReponse(donnees) {
+  const toutes = chargerReponses();
+  toutes.push(donnees);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(toutes));
+}
+
+// --- Rendu questionnaire ---
+function afficherQuestionnaire() {
+  const racine = document.getElementById("app");
+  const section = QUESTIONS[etat.sectionActuelle];
+  const progression = ((etat.sectionActuelle + 1) / etat.nbSections) * 100;
+
+  racine.innerHTML = `
+    ${etat.sectionActuelle === 0 ? `
+      <div class="q-header">
+        <h1>${LIBELLES.titreAccueil}</h1>
+        <p>${LIBELLES.sousTitreAccueil}</p>
+      </div>
+    ` : ''}
+    
+    <div class="q-progress">
+      <div class="q-progress-bar"><div class="q-progress-fill" style="width:${progression}%"></div></div>
+      <div class="q-progress-text">${LIBELLES.texteSection} ${etat.sectionActuelle + 1}/${etat.nbSections} · ${section.section}</div>
+    </div>
+
+    ${section.intro ? `<div class="q-intro-box">${section.intro}</div>` : ''}
+
+    ${section.items.map(item => afficherItem(item)).join('')}
+
+    <div style="display:flex;justify-content:space-between;gap:12px;margin-top:1.5rem">
+      <button class="q-btn" onclick="sectionPrecedente()" ${etat.sectionActuelle === 0 ? 'disabled' : ''}>${LIBELLES.boutonRetour}</button>
+      <button class="q-btn q-btn-primary" onclick="sectionSuivante()">
+        ${etat.sectionActuelle === etat.nbSections - 1 ? LIBELLES.boutonEnvoyer : LIBELLES.boutonSuivant}
+      </button>
+    </div>
+  `;
+  
+  attacherEcouteurs();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function afficherItem(item) {
+  if (item.type === "formules-display") {
+    return `
+      <div class="q-card">
+        <p class="q-question">${item.q}</p>
+        ${CONFIG.formules.map(f => `
+          <div class="q-formule-card ${f.recommande ? 'recommended' : ''}">
+            <div>
+              <span class="q-formule-duree">${f.duree}</span>
+              <h3 class="q-formule-name">${f.nom}</h3>
+            </div>
+            <p class="q-formule-sub">${f.sousTitre}</p>
+            ${f.reduction ? `<p class="q-formule-reduc">${f.reduction}</p>` : ''}
+            <div class="q-tarifs">
+              <div class="q-tarif-box">
+                <div class="q-tarif-label">${LIBELLES.texteAmateur}</div>
+                <div class="q-tarif-val">${f.tarifAmateur} €</div>
+                <div class="q-tarif-unit">${LIBELLES.texteParMois}</div>
+              </div>
+              <div class="q-tarif-box pro">
+                <div class="q-tarif-label">${LIBELLES.texteProfessionnel}</div>
+                <div class="q-tarif-val">${f.tarifPro} €</div>
+                <div class="q-tarif-unit">${LIBELLES.texteParMois}</div>
+              </div>
+            </div>
+            <ul class="q-features">
+              ${f.avantages.map(av => `<li><i class="ti ti-check"></i>${av}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+        <div class="q-pro-extras">
+          <strong>${LIBELLES.texteTarifAvecPro}</strong>
+          ${CONFIG.avantagesProSupplementaires.map(e => `• ${e}`).join('<br>')}
+        </div>
+      </div>
+    `;
+  }
+
+  const valeur = etat.reponses[item.id];
+  let htmlChamp = '';
+
+  if (item.type === "pills") {
+    htmlChamp = `<div class="q-pills" data-id="${item.id}" data-type="pills">
+      ${item.options.map(opt => `<button type="button" class="q-pill" data-value="${echapper(opt)}" aria-pressed="${valeur === opt ? 'true' : 'false'}">${opt}</button>`).join('')}
+    </div>`;
+  } else if (item.type === "multi-pills" || item.type === "multi-pills-limit") {
+    const selectionnes = Array.isArray(valeur) ? valeur : [];
+    htmlChamp = `<div class="q-pills" data-id="${item.id}" data-type="${item.type}" ${item.limit ? `data-limit="${item.limit}"` : ''}>
+      ${item.options.map(opt => `<button type="button" class="q-pill" data-value="${echapper(opt)}" aria-pressed="${selectionnes.includes(opt) ? 'true' : 'false'}">${opt}</button>`).join('')}
+    </div>${item.limit ? `<p class="q-hint">${LIBELLES.texteMaxSelections} ${item.limit} ${LIBELLES.texteSelectionsRestantes}</p>` : ''}`;
+  } else if (item.type === "text") {
+    htmlChamp = `<input type="text" class="q-input" data-id="${item.id}" placeholder="${item.placeholder || ''}" value="${valeur || ''}">`;
+  } else if (item.type === "number") {
+    htmlChamp = `<div style="display:flex;align-items:center;gap:8px"><input type="number" class="q-input" data-id="${item.id}" placeholder="${item.placeholder || ''}" value="${valeur || ''}" style="flex:1">${item.unit ? `<span style="font-size:14px;color:var(--text-2)">${item.unit}</span>` : ''}</div>`;
+  } else if (item.type === "textarea") {
+    htmlChamp = `<textarea class="q-textarea" data-id="${item.id}" placeholder="${item.placeholder || ''}">${valeur || ''}</textarea>`;
+  } else if (item.type === "select") {
+    htmlChamp = `<select class="q-select" data-id="${item.id}">
+      <option value="">${LIBELLES.texteChoisir}</option>
+      ${item.options.map(opt => `<option value="${echapper(opt)}" ${valeur === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+    </select>`;
+  } else if (item.type === "range") {
+    const v = valeur !== undefined ? valeur : item.default;
+    htmlChamp = `
+      <div class="q-range-row">
+        <span style="font-size:11px;color:var(--text-3)">${item.labels[0]}</span>
+        <input type="range" data-id="${item.id}" min="${item.min}" max="${item.max}" step="1" value="${v}" oninput="document.querySelector('[data-range-val=&quot;${item.id}&quot;]').textContent=this.value">
+        <span style="font-size:11px;color:var(--text-3)">${item.labels[1]}</span>
+        <span class="q-range-val" data-range-val="${item.id}">${v}</span>
+      </div>`;
+  }
+
+  return `<div class="q-card"><p class="q-question">${item.q}</p>${htmlChamp}</div>`;
+}
+
+function echapper(s) {
+  return String(s).replace(/"/g, '&quot;');
+}
+
+function attacherEcouteurs() {
+  document.querySelectorAll('.q-pills').forEach(conteneur => {
+    const id = conteneur.dataset.id;
+    const type = conteneur.dataset.type;
+    const limite = conteneur.dataset.limit ? parseInt(conteneur.dataset.limit) : null;
+    
+    conteneur.querySelectorAll('.q-pill').forEach(pastille => {
+      pastille.addEventListener('click', () => {
+        const val = pastille.dataset.value;
+        if (type === "pills") {
+          conteneur.querySelectorAll('.q-pill').forEach(p => p.setAttribute('aria-pressed', 'false'));
+          pastille.setAttribute('aria-pressed', 'true');
+          etat.reponses[id] = val;
+        } else {
+          let actuel = Array.isArray(etat.reponses[id]) ? etat.reponses[id] : [];
+          if (actuel.includes(val)) {
+            actuel = actuel.filter(v => v !== val);
+            pastille.setAttribute('aria-pressed', 'false');
+          } else {
+            if (limite && actuel.length >= limite) {
+              afficherMessage(`${LIBELLES.texteMaxSelections} ${limite} ${LIBELLES.texteSelectionsRestantes}`);
+              return;
+            }
+            actuel.push(val);
+            pastille.setAttribute('aria-pressed', 'true');
+          }
+          etat.reponses[id] = actuel;
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll('.q-input, .q-textarea, .q-select').forEach(el => {
+    el.addEventListener('change', () => { etat.reponses[el.dataset.id] = el.value; });
+  });
+
+  document.querySelectorAll('input[type="range"]').forEach(el => {
+    el.addEventListener('change', () => { etat.reponses[el.dataset.id] = parseInt(el.value); });
+    if (etat.reponses[el.dataset.id] === undefined) etat.reponses[el.dataset.id] = parseInt(el.value);
+  });
+}
+
+window.sectionSuivante = function() {
+  if (etat.sectionActuelle < etat.nbSections - 1) {
+    etat.sectionActuelle++;
+    afficherQuestionnaire();
+  } else {
+    envoyerReponses();
+  }
+};
+
+window.sectionPrecedente = function() {
+  if (etat.sectionActuelle > 0) {
+    etat.sectionActuelle--;
+    afficherQuestionnaire();
+  }
+};
+
+function envoyerReponses() {
+  const donnees = {
+    id: "reponse_" + Date.now() + "_" + Math.random().toString(36).slice(2,8),
+    horodatage: new Date().toISOString(),
+    reponses: etat.reponses
+  };
+  
+  // Sauvegarde locale d'abord
+  try {
+    sauvegarderReponse(donnees);
+  } catch(e) {
+    console.error("Erreur sauvegarde locale:", e);
+  }
+  
+  // Envoi à l'endpoint de centralisation si configuré
+  if (ENDPOINT_CENTRALISATION && ENDPOINT_CENTRALISATION !== null) {
+    // Détection du type d'endpoint (Formspree ou Google Sheets)
+    const estFormspree = ENDPOINT_CENTRALISATION.includes('formspree.io');
+    const estGoogleScript = ENDPOINT_CENTRALISATION.includes('script.google.com') || ENDPOINT_CENTRALISATION.includes('script.googleusercontent.com');
+    
+    if (estFormspree) {
+      // Format Formspree (FormData)
+      const formData = new FormData();
+      formData.append('id', donnees.id);
+      formData.append('horodatage', donnees.horodatage);
+      
+      Object.entries(donnees.reponses).forEach(([cle, valeur]) => {
+        if (Array.isArray(valeur)) {
+          formData.append(cle, valeur.join(' | '));
+        } else {
+          formData.append(cle, valeur || '');
+        }
+      });
+      
+      fetch(ENDPOINT_CENTRALISATION, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          console.log("Réponse envoyée à Formspree ✓");
+        } else {
+          console.error("Erreur Formspree", response);
+        }
+        afficherRemerciement();
+      }).catch(err => {
+        console.error("Erreur réseau Formspree:", err);
+        afficherRemerciement();
+      });
+      
+    } else if (estGoogleScript) {
+      // Format Google Sheets (JSON)
+      fetch(ENDPOINT_CENTRALISATION, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(donnees)
+      }).then(response => response.json())
+        .then(result => {
+          if (result.result === 'success') {
+            console.log("Réponse envoyée à Google Sheets ✓");
+          } else {
+            console.error("Erreur Google Sheets:", result.error);
+          }
+          afficherRemerciement();
+        }).catch(err => {
+          console.error("Erreur réseau Google Sheets:", err);
+          afficherRemerciement();
+        });
+        
+    } else {
+      // Endpoint inconnu, on essaye en JSON
+      fetch(ENDPOINT_CENTRALISATION, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(donnees)
+      }).then(() => {
+        console.log("Réponse envoyée ✓");
+        afficherRemerciement();
+      }).catch(err => {
+        console.error("Erreur réseau:", err);
+        afficherRemerciement();
+      });
+    }
+  } else {
+    // Pas de centralisation configurée
+    afficherRemerciement();
+  }
+}
+
+function afficherRemerciement() {
+  const racine = document.getElementById("app");
+  racine.innerHTML = `
+    <div class="q-card" style="text-align:center;padding:2rem 1.25rem">
+      <i class="ti ti-circle-check" style="font-size:48px;color:var(--success)"></i>
+      <h2 style="font-size:22px;font-weight:500;margin:1rem 0 0.5rem;font-family:Georgia,serif">${LIBELLES.texteMerci}</h2>
+      <p style="color:var(--text-2);font-size:14px;line-height:1.6;margin:0 0 1.5rem">${LIBELLES.texteRemerciement}</p>
+      
+      <p style="font-size:13px;color:var(--text-3);margin-bottom:0.75rem">${LIBELLES.texteAideDiffusion}</p>
+      <div class="q-share-row">
+        <a class="q-share-btn" href="https://wa.me/?text=${encodeURIComponent(CONFIG.texteIncitationPartage + ' ' + CONFIG.lienPartage)}" target="_blank"><i class="ti ti-brand-whatsapp"></i>WhatsApp</a>
+        <a class="q-share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(CONFIG.texteIncitationPartage)}&url=${encodeURIComponent(CONFIG.lienPartage)}" target="_blank"><i class="ti ti-brand-x"></i>X</a>
+        <a class="q-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(CONFIG.lienPartage)}" target="_blank"><i class="ti ti-brand-facebook"></i>Facebook</a>
+        <a class="q-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(CONFIG.lienPartage)}" target="_blank"><i class="ti ti-brand-linkedin"></i>LinkedIn</a>
+        <button class="q-share-btn" onclick="copierLien()"><i class="ti ti-copy"></i>${LIBELLES.texteCopierLien}</button>
+      </div>
+    </div>
+  `;
+}
+
+window.copierLien = function() {
+  navigator.clipboard.writeText(CONFIG.lienPartage).then(() => afficherMessage(LIBELLES.texteLienCopie));
+};
+
+function afficherMessage(msg) {
+  let t = document.querySelector('.q-toast');
+  if (!t) { t = document.createElement('div'); t.className='q-toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// --- Tableau de bord admin ---
+function afficherTableauBord() {
+  const racine = document.getElementById("app");
+  const reponses = chargerReponses().sort((a,b) => new Date(b.horodatage) - new Date(a.horodatage));
+  
+  racine.innerHTML = `
+    <div class="q-header">
+      <h1>Tableau de bord Altagon</h1>
+      <p>${reponses.length} ${reponses.length > 1 ? LIBELLES.texteReponses : LIBELLES.texteReponse} · ${LIBELLES.texteSousTitreTableauBord}</p>
+    </div>
+    
+    <div class="q-tabs">
+      <button class="q-tab active" data-tab="overview" onclick="changerOnglet('overview')">${LIBELLES.ongletVue}</button>
+      <button class="q-tab" data-tab="profile" onclick="changerOnglet('profile')">${LIBELLES.ongletProfils}</button>
+      <button class="q-tab" data-tab="pricing" onclick="changerOnglet('pricing')">${LIBELLES.ongletTarifs}</button>
+      <button class="q-tab" data-tab="features" onclick="changerOnglet('features')">${LIBELLES.ongletAvantages}</button>
+      <button class="q-tab" data-tab="verbatims" onclick="changerOnglet('verbatims')">${LIBELLES.ongletVerbatims}</button>
+      <button class="q-tab" data-tab="raw" onclick="changerOnglet('raw')">${LIBELLES.ongletBrut}</button>
+    </div>
+    
+    <div id="tab-content"></div>
+    
+    <div style="display:flex;gap:8px;margin-top:1.5rem;justify-content:center;flex-wrap:wrap">
+      <button class="q-btn" onclick="exporterCSV()"><i class="ti ti-download"></i> ${LIBELLES.boutonExportCsv}</button>
+      <button class="q-btn" onclick="exporterJSON()"><i class="ti ti-file-code"></i> ${LIBELLES.boutonExportJson}</button>
+      <button class="q-btn" onclick="document.getElementById('import-input').click()"><i class="ti ti-upload"></i> ${LIBELLES.boutonImporter}</button>
+      <input type="file" id="import-input" accept=".json" style="display:none" onchange="importerJSON(event)">
+      <button class="q-btn" onclick="if(confirm('${LIBELLES.texteConfirmSuppression}')) toutSupprimer()" style="color:var(--danger);border-color:var(--danger)"><i class="ti ti-trash"></i> ${LIBELLES.boutonSupprimerTout}</button>
+    </div>
+  `;
+  
+  window._reponses = reponses;
+  changerOnglet('overview');
+}
+
+window.changerOnglet = function(onglet) {
+  document.querySelectorAll('.q-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === onglet));
+  const contenu = document.getElementById('tab-content');
+  const reponses = window._reponses || [];
+  
+  if (reponses.length === 0) {
+    contenu.innerHTML = `<div class="q-card" style="text-align:center;color:var(--text-3)">${LIBELLES.texteAucuneReponse}</div>`;
+    return;
+  }
+  
+  if (onglet === 'overview') contenu.innerHTML = afficherVueEnsemble(reponses);
+  else if (onglet === 'profile') contenu.innerHTML = afficherProfils(reponses);
+  else if (onglet === 'pricing') contenu.innerHTML = afficherTarifs(reponses);
+  else if (onglet === 'features') contenu.innerHTML = afficherAvantages(reponses);
+  else if (onglet === 'verbatims') contenu.innerHTML = afficherVerbatims(reponses);
+  else if (onglet === 'raw') contenu.innerHTML = afficherBrut(reponses);
+};
+
+function distribution(reponses, cle) {
+  const compteurs = {};
+  reponses.forEach(r => {
+    const v = r.reponses[cle];
+    if (v === undefined || v === null || v === '') return;
+    if (Array.isArray(v)) v.forEach(x => compteurs[x] = (compteurs[x]||0)+1);
+    else compteurs[v] = (compteurs[v]||0)+1;
+  });
+  return compteurs;
+}
+
+function moyenne(reponses, cle) {
+  const vals = reponses.map(r => r.reponses[cle]).filter(v => typeof v === 'number');
+  return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+}
+
+function afficherBarres(compteurs, total) {
+  const entrees = Object.entries(compteurs).sort((a,b)=>b[1]-a[1]);
+  if (entrees.length === 0) return `<p style="color:var(--text-3);font-size:13px">${LIBELLES.texteAucuneDonnee}</p>`;
+  return entrees.map(([label, n]) => {
+    const pct = total ? Math.round(n/total*100) : 0;
+    return `<div class="q-bar-row">
+      <span class="q-bar-label">${label}</span>
+      <div class="q-bar-track"><div class="q-bar-fill" style="width:${pct}%"></div></div>
+      <span class="q-bar-val">${n} · ${pct}%</span>
+    </div>`;
+  }).join('');
+}
+
+function carteBarres(titre, compteurs, n) {
+  return `<div class="q-card"><h3 style="font-size:14px;font-weight:500;margin:0 0 0.75rem">${titre}</h3>${afficherBarres(compteurs, n)}</div>`;
+}
+
+function afficherVueEnsemble(reponses) {
+  const n = reponses.length;
+  const interet = moyenne(reponses, 'interet_global');
+  const recommandation = moyenne(reponses, 'recommanderais');
+  const appImp = moyenne(reponses, 'app_importance');
+  
+  return `
+    <div class="q-metric-grid">
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriqueReponses}</div><div class="q-metric-val">${n}</div></div>
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriqueInteret}</div><div class="q-metric-val">${interet?interet.toFixed(1):'-'}</div></div>
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriqueRecommandation}</div><div class="q-metric-val">${recommandation?recommandation.toFixed(1):'-'}</div></div>
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriqueApp}</div><div class="q-metric-val">${appImp?appImp.toFixed(1):'-'}</div></div>
+    </div>
+    ${carteBarres("Formule préférée", distribution(reponses, 'formule_preferee'), n)}
+    ${carteBarres("Frein principal", distribution(reponses, 'frein_principal'), n)}
+    ${carteBarres("Statut perçu", distribution(reponses, 'statut_perso'), n)}
+  `;
+}
+
+function afficherProfils(reponses) {
+  const n = reponses.length;
+  return `
+    ${carteBarres("Âge", distribution(reponses, 'age'), n)}
+    ${carteBarres("Genre", distribution(reponses, 'genre'), n)}
+    ${carteBarres("Niveau", distribution(reponses, 'niveau'), n)}
+    ${carteBarres("Heures par semaine", distribution(reponses, 'frequence'), n)}
+    ${carteBarres("Ancienneté", distribution(reponses, 'anciennete'), n)}
+    ${carteBarres("Revenus sport", distribution(reponses, 'revenus_sport'), n)}
+    ${carteBarres("Budget actuel performance", distribution(reponses, 'budget_actuel'), n)}
+    ${carteBarres("Budget potentiel (volonté de payer)", distribution(reponses, 'budget_potentiel'), n)}
+    ${carteBarres("Accompagnement actuel", distribution(reponses, 'accompagnement_actuel'), n)}
+    ${carteBarres("Manques actuels", distribution(reponses, 'manques'), n)}
+  `;
+}
+
+function afficherTarifs(reponses) {
+  const n = reponses.length;
+  const prixMax = moyenne(reponses, 'prix_psy_max');
+  const prixJuste = moyenne(reponses, 'prix_psy_juste');
+  const prixDoute = moyenne(reponses, 'prix_psy_doute');
+  
+  return `
+    <div class="q-metric-grid">
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriquePrixTropCher}</div><div class="q-metric-val">${prixMax?Math.round(prixMax)+'€':'-'}</div></div>
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriquePrixJuste}</div><div class="q-metric-val">${prixJuste?Math.round(prixJuste)+'€':'-'}</div></div>
+      <div class="q-metric"><div class="q-metric-label">${LIBELLES.metriquePrixDoute}</div><div class="q-metric-val">${prixDoute?Math.round(prixDoute)+'€':'-'}</div></div>
+    </div>
+    ${carteBarres("Perception tarif Reconnaissance", distribution(reponses, 'tarif_reconnaissance'), n)}
+    ${carteBarres("Perception tarif Le Cap", distribution(reponses, 'tarif_cap'), n)}
+    ${carteBarres("Perception tarif L'Ascension", distribution(reponses, 'tarif_ascension'), n)}
+    ${carteBarres("Perception tarif Le Sommet", distribution(reponses, 'tarif_sommet'), n)}
+    ${carteBarres("Différenciation Pro justifiée ?", distribution(reponses, 'differenciation_pro'), n)}
+    ${carteBarres("Mode d'engagement préféré", distribution(reponses, 'engagement'), n)}
+    ${carteBarres("Mode de paiement préféré", distribution(reponses, 'paiement'), n)}
+  `;
+}
+
+function afficherAvantages(reponses) {
+  const n = reponses.length;
+  return `
+    ${carteBarres("Piliers prioritaires", distribution(reponses, 'piliers_priorite'), n)}
+    ${carteBarres("Fonctionnalités INDISPENSABLES", distribution(reponses, 'features_must'), n)}
+    ${carteBarres("Fonctionnalités SYMPAS", distribution(reponses, 'features_nice'), n)}
+    ${carteBarres("Pourquoi changer pour Altagon", distribution(reponses, 'pourquoi_changer'), n)}
+    ${carteBarres("Briefing 2h perçu comme", distribution(reponses, 'briefing_2h'), n)}
+    ${carteBarres("Essai gratuit", distribution(reponses, 'essai_gratuit'), n)}
+    ${carteBarres("Garantie rassurante", distribution(reponses, 'garantie'), n)}
+  `;
+}
+
+function afficherVerbatims(reponses) {
+  const items = reponses.map(r => ({
+    ts: r.horodatage,
+    discipline: r.reponses.discipline,
+    niveau: r.reponses.niveau,
+    concurrents: r.reponses.concurrents,
+    feature_manquante: r.reponses.feature_manquante,
+    verbatim: r.reponses.verbatim,
+    contact: r.reponses.contact
+  })).filter(x => x.verbatim || x.feature_manquante || x.concurrents || x.contact);
+  
+  if (items.length === 0) return `<div class="q-card" style="text-align:center;color:var(--text-3)">${LIBELLES.texteAucunVerbatim}</div>`;
+  
+  return items.map(it => `
+    <div class="q-card">
+      <p style="font-size:11px;color:var(--text-3);margin:0 0 0.5rem">${new Date(it.ts).toLocaleString('fr-FR')} · ${it.discipline||'?'} · ${it.niveau||'?'}</p>
+      ${it.verbatim ? `<p style="margin:0 0 0.5rem;font-size:13px;line-height:1.6"><strong>Remarque :</strong> ${it.verbatim}</p>` : ''}
+      ${it.feature_manquante ? `<p style="margin:0 0 0.5rem;font-size:13px;line-height:1.6"><strong>Fonctionnalité suggérée :</strong> ${it.feature_manquante}</p>` : ''}
+      ${it.concurrents ? `<p style="margin:0 0 0.5rem;font-size:13px;line-height:1.6"><strong>Concurrents utilisés :</strong> ${it.concurrents}</p>` : ''}
+      ${it.contact ? `<p style="margin:0;font-size:12px;color:var(--accent)"><i class="ti ti-mail"></i> ${it.contact}</p>` : ''}
+    </div>
+  `).join('');
+}
+
+function afficherBrut(reponses) {
+  return `<div class="q-card"><pre style="font-size:11px;overflow-x:auto;font-family:monospace;background:var(--surface-2);padding:0.75rem;border-radius:var(--radius);max-height:500px;overflow-y:auto">${JSON.stringify(reponses, null, 2)}</pre></div>`;
+}
+
+window.exporterCSV = function() {
+  const reponses = window._reponses || [];
+  if (reponses.length === 0) return afficherMessage("Aucune réponse à exporter");
+  const toutesCles = new Set();
+  reponses.forEach(r => Object.keys(r.reponses).forEach(k => toutesCles.add(k)));
+  const cles = ['id','horodatage', ...Array.from(toutesCles)];
+  const lignes = [cles.join(',')];
+  reponses.forEach(r => {
+    const ligne = cles.map(k => {
+      let v = k === 'id' ? r.id : k === 'horodatage' ? r.horodatage : r.reponses[k];
+      if (Array.isArray(v)) v = v.join('|');
+      if (v === undefined || v === null) v = '';
+      v = String(v).replace(/"/g, '""');
+      return `"${v}"`;
+    });
+    lignes.push(ligne.join(','));
+  });
+  telecharger('altagon_reponses_' + Date.now() + '.csv', '\uFEFF' + lignes.join('\n'), 'text/csv;charset=utf-8');
+};
+
+window.exporterJSON = function() {
+  const reponses = window._reponses || [];
+  telecharger('altagon_reponses_' + Date.now() + '.json', JSON.stringify(reponses, null, 2), 'application/json');
+};
+
+window.importerJSON = function(event) {
+  const fichier = event.target.files[0];
+  if (!fichier) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importees = JSON.parse(e.target.result);
+      if (!Array.isArray(importees)) throw new Error("Format invalide");
+      const actuelles = chargerReponses();
+      const idsExistants = new Set(actuelles.map(r => r.id));
+      const nouvelles = importees.filter(r => !idsExistants.has(r.id));
+      const fusionnees = [...actuelles, ...nouvelles];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fusionnees));
+      afficherMessage(`${LIBELLES.texteImportReussi} (${nouvelles.length} nouvelles)`);
+      afficherTableauBord();
+    } catch(e) {
+      afficherMessage("Erreur d'import : " + e.message);
+    }
+  };
+  reader.readAsText(fichier);
+};
+
+function telecharger(nom, contenu, type) {
+  const blob = new Blob([contenu], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nom; a.click();
+  URL.revokeObjectURL(url);
+  afficherMessage(LIBELLES.texteExportTelecharge);
+}
+
+window.toutSupprimer = function() {
+  localStorage.removeItem(STORAGE_KEY);
+  afficherMessage(LIBELLES.texteToutesReponsesSupprimees);
+  afficherTableauBord();
+};
+
+// --- Initialisation ---
+if (estAdmin) afficherTableauBord();
+else afficherQuestionnaire();
+</script>
+</body>
+</html>
