@@ -382,7 +382,9 @@ const QUESTIONS = [
 // 
 // ⚠️ IMPORTANT : L'URL doit se terminer par /exec (pas /dev)
 // 
-const ENDPOINT_CENTRALISATION = "https://script.google.com/macros/s/AKfycbwYRQMu_li1_akizQsNJpkl88Kpigp_ZabdALrENB8wcuhtEgu0yK4xF8l6uXF3luEBUQ/exec";
+// ========== MODIFIE ICI ========== MODIFIE ICI ========== MODIFIE ICI ==========
+const ENDPOINT_CENTRALISATION = "https://script.google.com/macros/s/AKfycbwYRQMu_li1_akizQsNJpkl88Kpigp_ZabdALrENB8wcuhtEgu0yK4xF8l6uXF3luEBUQ/exec" ;
+// ========== MODIFIE ICI ========== MODIFIE ICI ========== MODIFIE ICI ==========
 
 const STORAGE_KEY = "altagon_reponses_v1";
 const urlParams = new URLSearchParams(window.location.search);
@@ -594,73 +596,55 @@ function envoyerReponses() {
   
   // Envoi à l'endpoint de centralisation si configuré
   if (ENDPOINT_CENTRALISATION && ENDPOINT_CENTRALISATION !== null) {
-    // Détection du type d'endpoint (Formspree ou Google Sheets)
-    const estFormspree = ENDPOINT_CENTRALISATION.includes('formspree.io');
-    const estGoogleScript = ENDPOINT_CENTRALISATION.includes('script.google.com') || ENDPOINT_CENTRALISATION.includes('script.googleusercontent.com');
     
-    if (estFormspree) {
-      // Format Formspree (FormData)
-      const formData = new FormData();
-      formData.append('id', donnees.id);
-      formData.append('horodatage', donnees.horodatage);
-      
-      Object.entries(donnees.reponses).forEach(([cle, valeur]) => {
-        if (Array.isArray(valeur)) {
-          formData.append(cle, valeur.join(' | '));
-        } else {
-          formData.append(cle, valeur || '');
-        }
-      });
-      
-      fetch(ENDPOINT_CENTRALISATION, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      }).then(response => {
-        if (response.ok) {
-          console.log("Réponse envoyée à Formspree ✓");
-        } else {
-          console.error("Erreur Formspree", response);
-        }
-        afficherRemerciement();
-      }).catch(err => {
-        console.error("Erreur réseau Formspree:", err);
-        afficherRemerciement();
-      });
-      
-    } else if (estGoogleScript) {
-      // Format Google Sheets (JSON)
-      fetch(ENDPOINT_CENTRALISATION, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(donnees)
-      }).then(response => response.json())
-        .then(result => {
-          if (result.result === 'success') {
-            console.log("Réponse envoyée à Google Sheets ✓");
-          } else {
-            console.error("Erreur Google Sheets:", result.error);
-          }
-          afficherRemerciement();
-        }).catch(err => {
-          console.error("Erreur réseau Google Sheets:", err);
-          afficherRemerciement();
-        });
-        
-    } else {
-      // Endpoint inconnu, on essaye en JSON
-      fetch(ENDPOINT_CENTRALISATION, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(donnees)
-      }).then(() => {
-        console.log("Réponse envoyée ✓");
-        afficherRemerciement();
-      }).catch(err => {
-        console.error("Erreur réseau:", err);
-        afficherRemerciement();
-      });
+    // Méthode universelle : formulaire invisible (contourne les erreurs CORS)
+    const formulaireCache = document.createElement('form');
+    formulaireCache.method = 'POST';
+    formulaireCache.action = ENDPOINT_CENTRALISATION;
+    formulaireCache.target = 'envoi_cache'; // iframe invisible
+    
+    // Créer une iframe invisible pour recevoir la réponse
+    let iframe = document.getElementById('envoi_cache');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'envoi_cache';
+      iframe.id = 'envoi_cache';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
     }
+    
+    // Ajouter l'ID et l'horodatage
+    const ajouterChamp = (nom, valeur) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = nom;
+      input.value = valeur || '';
+      formulaireCache.appendChild(input);
+    };
+    
+    ajouterChamp('id', donnees.id);
+    ajouterChamp('horodatage', donnees.horodatage);
+    ajouterChamp('donnees_json', JSON.stringify(donnees));
+    
+    // Ajouter toutes les réponses individuellement
+    Object.entries(donnees.reponses).forEach(([cle, valeur]) => {
+      if (Array.isArray(valeur)) {
+        ajouterChamp(cle, valeur.join(' • '));
+      } else if (valeur !== undefined && valeur !== null) {
+        ajouterChamp(cle, String(valeur));
+      }
+    });
+    
+    // Envoyer
+    document.body.appendChild(formulaireCache);
+    formulaireCache.submit();
+    document.body.removeChild(formulaireCache);
+    
+    console.log("Réponse envoyée ✓");
+    
+    // Petit délai pour laisser le formulaire partir avant d'afficher le merci
+    setTimeout(() => afficherRemerciement(), 500);
+    
   } else {
     // Pas de centralisation configurée
     afficherRemerciement();
